@@ -15,10 +15,9 @@ there are sufficient online sources for help, to address any problem
 that arises. You might instead use [R-Studio
 Cloud](https://rstudio.cloud/).
 
-The cloud version is probably best for most students (again, note that
-you have to wait until August, sorry). More and more we’re pushing
-everything to the cloud. If your internet is grumpy or slow then perhaps
-a local version might be better.
+The cloud version is good. More and more we’re pushing everything to the
+cloud. If your internet is grumpy or slow then perhaps a local version
+might be better.
 
 The best way to learn it is to just do it. How many times have you got a
 new game, skipped reading the instructions, and learned by crashing it a
@@ -73,18 +72,18 @@ summary(fm)
     ## 
     ## Residuals:
     ##     Min      1Q  Median      3Q     Max 
-    ## -6.8271 -0.9964  0.4122  1.7519  9.3023 
+    ## -6.0273 -1.9912  0.3747  2.1712  8.8620 
     ## 
     ## Coefficients:
     ##             Estimate Std. Error t value Pr(>|t|)    
-    ## (Intercept)  -0.7849     0.8965  -0.876    0.386    
-    ## x             1.0258     0.0306  33.529   <2e-16 ***
+    ## (Intercept) -0.99075    0.91607  -1.082    0.285    
+    ## x            1.03888    0.03127  33.228   <2e-16 ***
     ## ---
     ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
     ## 
-    ## Residual standard error: 3.122 on 48 degrees of freedom
-    ## Multiple R-squared:  0.9591, Adjusted R-squared:  0.9582 
-    ## F-statistic:  1124 on 1 and 48 DF,  p-value: < 2.2e-16
+    ## Residual standard error: 3.19 on 48 degrees of freedom
+    ## Multiple R-squared:  0.9583, Adjusted R-squared:  0.9575 
+    ## F-statistic:  1104 on 1 and 48 DF,  p-value: < 2.2e-16
 
 ``` r
 lrf <- lowess(x, y)
@@ -147,7 +146,7 @@ that you work on – so for this project, create a folder called
 “ecob2000\_lecture1”.
 
 Go and download the PUMS data from the [class
-page](http://kfoster.ccny.cuny.edu/classes/fall2020/), which will likely
+page](http://kfoster.ccny.cuny.edu/classes/fall2021/), which will likely
 put that zip file into your Downloads folder. Within that zip file is
 one particular file, acs2017\_ny\_data.RData - move that into your new
 folder, ecob2000\_lecture1.

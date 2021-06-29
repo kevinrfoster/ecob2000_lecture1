@@ -9,7 +9,7 @@ output: github_document
 
 For this class we'll be using the statistical analysis program, R. The computer labs here on campus have the necessary software. If you have your own computer, download and install the program from [R Project](http://www.r-project.org/) along with [R-Studio](http://www.rstudio.com/). Depending on your particular device these details will be different so take it patiently and figure it out - there are sufficient online sources for help, to address any problem that arises. You might instead use [R-Studio Cloud](https://rstudio.cloud/). 
 
-The cloud version is probably best for most students (again, note that you have to wait until August, sorry). More and more we're pushing everything to the cloud. If your internet is grumpy or slow then perhaps a local version might be better.
+The cloud version is good. More and more we're pushing everything to the cloud. If your internet is grumpy or slow then perhaps a local version might be better.
 
 The best way to learn it is to just do it. How many times have you got a new game, skipped reading the instructions, and learned by crashing it a few times? This isn't quite so simple but the basic gist remains - try it. Below I give you some pointers about how to just do it, but they're meant to be read then immediately done in real life, I'll give you some commands to just copy-and-paste into the program.
 
@@ -61,7 +61,7 @@ You have to learn a bit about your computer's filing system. When you download s
 
 It's now time to be intentional and organized. Create a folder for your R work. Within that folder, create a separate folder for each project that you work on -- so for this project, create a folder called "ecob2000_lecture1".
 
-Go and download the PUMS data from the [class page](http://kfoster.ccny.cuny.edu/classes/fall2020/), which will likely put that zip file into your Downloads folder. Within that zip file is one particular file, acs2017_ny_data.RData - move that into your new folder, ecob2000_lecture1.
+Go and download the PUMS data from the [class page](http://kfoster.ccny.cuny.edu/classes/fall2021/), which will likely put that zip file into your Downloads folder. Within that zip file is one particular file, acs2017_ny_data.RData - move that into your new folder, ecob2000_lecture1.
 
 Note that you can't just download the zip file and run the program, you have to extract the particular .RData file -- that regularly trips up people as they begin.
 
