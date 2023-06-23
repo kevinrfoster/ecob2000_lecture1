@@ -67,18 +67,18 @@ summary(fm)
     ## 
     ## Residuals:
     ##     Min      1Q  Median      3Q     Max 
-    ## -6.2461 -2.5023  0.0229  2.4135 11.7792 
+    ## -8.7849 -1.8484 -0.4217  1.7703  8.4669 
     ## 
     ## Coefficients:
     ##             Estimate Std. Error t value Pr(>|t|)    
-    ## (Intercept) -0.35562    1.04995  -0.339    0.736    
-    ## x            0.99049    0.03583  27.641   <2e-16 ***
+    ## (Intercept)  0.73747    1.00745   0.732    0.468    
+    ## x            0.99021    0.03438  28.799   <2e-16 ***
     ## ---
     ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
     ## 
-    ## Residual standard error: 3.657 on 48 degrees of freedom
-    ## Multiple R-squared:  0.9409, Adjusted R-squared:  0.9397 
-    ## F-statistic:   764 on 1 and 48 DF,  p-value: < 2.2e-16
+    ## Residual standard error: 3.509 on 48 degrees of freedom
+    ## Multiple R-squared:  0.9453, Adjusted R-squared:  0.9442 
+    ## F-statistic: 829.4 on 1 and 48 DF,  p-value: < 2.2e-16
 
 ``` r
 lrf <- lowess(x, y)
@@ -137,10 +137,10 @@ that you work on – so for this project, create a folder called
 “ecob2000_lecture1”.
 
 Go and download the Household Pulse data from the [class
-page](http://kfoster.ccny.cuny.edu/classes/fall2022/), which will likely
+page](http://kfoster.ccny.cuny.edu/classes/fall2023/), which will likely
 put that zip file into your Downloads folder. Within that zip file is
-one particular file, Household_Pulse_data.RData - move that into your
-new folder, ecob2000_lecture1.
+one particular file, Household_Pulse_data_w57.RData - move that into
+your new folder, ecob2000_lecture1.
 
 Note that you can’t just download the zip file and run the program, you
 have to extract the particular .RData file – that regularly trips up
@@ -160,42 +160,33 @@ detail](https://www.r-bloggers.com/rstudio-projects-and-working-directories-a-be
 Then run these commands (output from those commands is below),
 
 ``` r
-load("Household_Pulse_data.RData")
+load("Household_Pulse_data_w57.RData")
 #glimpse(acs2017_ny) try this later
-Household_Pulse_data[1:10,1:7]
+Household_Pulse_data[1:10,1:6]
 ```
 
-    ##       RHISPANIC RRACE      EEDUC      MS EGENID_BIRTH GENID_DESCRIBE
-    ## 1  Not Hispanic White   bach deg      NA       female         female
-    ## 2  Not Hispanic White HS diploma married       female         female
-    ## 3  Not Hispanic White   bach deg widowed       female         female
-    ## 4  Not Hispanic White    adv deg   never       female         female
-    ## 5  Not Hispanic Black  some coll   never       female         female
-    ## 6      Hispanic White   bach deg   never       female         female
-    ## 7  Not Hispanic White    adv deg widowed       female         female
-    ## 8  Not Hispanic White  some coll widowed       female         female
-    ## 9  Not Hispanic White  assoc deg married       female         female
-    ## 10 Not Hispanic White    adv deg married       female         female
-    ##    SEXUAL_ORIENTATION
-    ## 1            straight
-    ## 2            straight
-    ## 3            straight
-    ## 4            straight
-    ## 5            straight
-    ## 6            straight
-    ## 7            straight
-    ## 8            straight
-    ## 9            straight
-    ## 10           straight
+    ##       RHISPANIC RRACE      EEDUC       MS EGENID_BIRTH GENID_DESCRIBE
+    ## 1  Not Hispanic White  some coll divorced         male           male
+    ## 2  Not Hispanic White  some coll  married         male           male
+    ## 3  Not Hispanic White    adv deg  widowed       female         female
+    ## 4      Hispanic White  assoc deg  married       female         female
+    ## 5  Not Hispanic White    adv deg  married         male           male
+    ## 6  Not Hispanic White  some coll    never         male    transgender
+    ## 7  Not Hispanic White HS diploma divorced         male           male
+    ## 8  Not Hispanic Black  some coll    never         male           male
+    ## 9  Not Hispanic Black   bach deg divorced         male           male
+    ## 10 Not Hispanic White    adv deg  married       female         female
 
 ``` r
 attach(Household_Pulse_data)
 ```
 
-The data is structured that each row is a person, so first person is a
-white female with bachelor degree and NA for marital status; next person
-is a married white female with high school diploma; then on for many
-more rows.
+The data is structured that each row is a person, so first person is
+somebody who’s not Hispanic, is white, has some college but no degree,
+is divorced, was born as male and currently identifies as male and then
+there is a lot more data in the other variables. Next row, row two,
+again much the same answers but is married; row three is a widowed
+female with an advanced degree, etc. ; then on for many more rows.
 
 You can also use the command, summary, to find out about data.
 
@@ -204,191 +195,215 @@ summary(Household_Pulse_data)
 ```
 
     ##         RHISPANIC       RRACE                EEDUC               MS       
-    ##  Not Hispanic:62660   White:56938   less than hs:  411   NA       :  881  
-    ##  Hispanic    : 6454   Black: 5412   some hs     :  936   married  :40036  
-    ##                       Asian: 3561   HS diploma  : 7857   widowed  : 3872  
-    ##                       Other: 3203   some coll   :14596   divorced :10310  
-    ##                                     assoc deg   : 7508   separated: 1214  
-    ##                                     bach deg    :20075   never    :12801  
-    ##                                     adv deg     :17731                    
+    ##  Not Hispanic:53858   White:48490   less than hs:  435   NA       :  410  
+    ##  Hispanic    : 5432   Black: 4814   some hs     :  911   married  :33462  
+    ##                       Asian: 2963   HS diploma  : 7583   widowed  : 3217  
+    ##                       Other: 3023   some coll   :12638   divorced : 9080  
+    ##                                     assoc deg   : 6118   separated: 1020  
+    ##                                     bach deg    :16668   never    :12101  
+    ##                                     adv deg     :14937                    
     ##  EGENID_BIRTH       GENID_DESCRIBE       SEXUAL_ORIENTATION
-    ##  male  :27592   NA         : 1131   NA            : 1506   
-    ##  female:41522   male       :26796   gay or lesbian: 2343   
-    ##                 female     :40263   straight      :61238   
-    ##                 transgender:  202   bisexual      : 2288   
-    ##                 other      :  722   something else:  871   
-    ##                                     dont know     :  868   
+    ##  male  :25369   NA         :  665   NA            :  831   
+    ##  female:33921   male       :24720   gay or lesbian: 1982   
+    ##                 female     :33048   straight      :52232   
+    ##                 transgender:  246   bisexual      : 2439   
+    ##                 other      :  611   something else: 1038   
+    ##                                     dont know     :  768   
     ##                                                            
     ##                       KIDS_LT5Y                         KIDS_5_11Y   
-    ##  NA                        :62342   NA                       :58467  
-    ##  Yes children under 5 in HH: 6772   Yes children 5 - 11 in HH:10647  
+    ##  NA                        :52617   NA                       :50004  
+    ##  Yes children under 5 in HH: 6673   Yes children 5 - 11 in HH: 9286  
     ##                                                                      
     ##                                                                      
     ##                                                                      
     ##                                                                      
     ##                                                                      
     ##                      KIDS_12_17Y                                 ENROLLNONE   
-    ##  NA                        :58046   NA                                :64285  
-    ##  Yes children 12 - 17 in HH:11068   children not in any type of school: 4829  
+    ##  NA                        :49978   NA                                :54743  
+    ##  Yes children 12 - 17 in HH: 9312   children not in any type of school: 4547  
     ##                                                                               
     ##                                                                               
     ##                                                                               
     ##                                                                               
     ##                                                                               
-    ##                RECVDVACC                          DOSESRV     
-    ##  NA                 :  851   NA                       : 9105  
-    ##  yes got vaxx       :60326   yes got all doses        :57762  
-    ##  no did not get vaxx: 7937   yes plan to get all doses: 1993  
-    ##                              no will not get all doses:  254  
-    ##                                                               
-    ##                                                               
-    ##                                                               
-    ##                      GETVACRV                                   KIDDOSES    
-    ##  NA                      :61159   NA                                :58318  
-    ##  definitely will get vaxx:  609   Yes kids got or will get all doses: 7135  
-    ##  probably will get vaxx  :  731   no kids did not or will not       : 3661  
-    ##  unsure about vaxx       : 1584                                             
-    ##  probably not            : 1599                                             
-    ##  definitely not          : 3432                                             
-    ##                                                                             
-    ##                     KIDGETVAC                          HADCOVID    
-    ##  NA                      :65384   NA                       : 1363  
-    ##  definitely will get vaxx:  487   yes doctor told had covid: 9122  
-    ##  probably will get vaxx  :  439   no did not               :58221  
-    ##  unsure about vaxx       :  736   not sure                 :  408  
-    ##  probably not            :  593                                    
-    ##  definitely not          : 1036                                    
-    ##  dont know yet           :  439                                    
-    ##                   WRKLOSSRV                              ANYWORK     
-    ##  NA                    : 1961   NA                           : 2135  
-    ##  yes recent HH job loss: 8058   yes employment in last 7 days:39237  
-    ##  no recent HH job loss :59095   no employment in last 7 days :27742  
-    ##                                                                      
-    ##                                                                      
-    ##                                                                      
-    ##                                                                      
-    ##                 KINDWORK                RSNNOWRKRV   
-    ##  NA                 :30540   NA              :42659  
-    ##  work for govt      : 6378   retired         :15024  
-    ##  work for private co:21370   other           : 4027  
-    ##  work for nonprofit : 5055   sick or disabled: 1451  
-    ##  self employed      : 4966   caring for kids : 1329  
-    ##  work in family biz :  805   laid off        : 1164  
-    ##                              (Other)         : 3460  
-    ##                                       CHLDCARE    
-    ##  NA                                       :58419  
-    ##  yes impacts to childcare because pandemic: 2566  
-    ##  no                                       : 8129  
-    ##                                                   
-    ##                                                   
-    ##                                                   
-    ##                                                   
+    ##                RECVDVACC    
+    ##  NA                 :  657  
+    ##  yes got vaxx       :51003  
+    ##  no did not get vaxx: 7630  
+    ##                             
+    ##                             
+    ##                             
+    ##                             
+    ##                                      KIDGETVAC_LT5Y 
+    ##  NA                                         :54740  
+    ##  kids under 5yo definitely get vaxx         :  396  
+    ##  kids under 5yo probably get vaxx           :  395  
+    ##  unsure kids under 5yo get vaxx             :  576  
+    ##  kids under 5yo probably NOT get vaxx       :  785  
+    ##  kids under 5yo definitely NOT get vaxx     : 1867  
+    ##  do not know plans for vaxx for kids under 5:  531  
+    ##                                    KIDGETVAC_5_11Y 
+    ##  NA                                        :55023  
+    ##  kids 5-11yo definitely get vaxx           :   85  
+    ##  kids 5-11yo probably get vaxx             :  188  
+    ##  unsure kids 5-11 get vaxx                 :  394  
+    ##  kids 5-11yo probably NOT get vaxx         :  800  
+    ##  kids 5-11yo definitely NOT get vaxx       : 2353  
+    ##  do not know plans for vaxx for kids 5-11yo:  447  
+    ##                                     KIDGETVAC_12_17Y
+    ##  NA                                         :56458  
+    ##  kids 12-17yo definitely get vaxx           :   27  
+    ##  kids 12-17yo probably get vaxx             :   76  
+    ##  unsure kids 12-17yo get vaxx               :  174  
+    ##  kids 12-17yo probably NOT get vaxx         :  425  
+    ##  kids 12-17yo definitely NOT get vaxx       : 1809  
+    ##  do not know plans for vaxx for kids 12-17yo:  321  
+    ##                               HADCOVIDRV   
+    ##  NA                                : 1102  
+    ##  yes tested + or doc told had Covid:32598  
+    ##  no                                :25590  
+    ##                                            
+    ##                                            
+    ##                                            
+    ##                                            
+    ##                                LONGCOVID    
+    ##  NA                                 :27018  
+    ##  had symptoms 3mo or more Long Covid: 8607  
+    ##  no                                 :23665  
+    ##                                             
+    ##                                             
+    ##                                             
+    ##                                             
+    ##                                     SYMPTOMS                      WRKLOSSRV    
+    ##  NA                                     :26909   NA                    : 1548  
+    ##  had no covid symptoms although tested +: 1558   yes recent HH job loss: 4740  
+    ##  had mild Covid symptoms                :13524   no recent HH job loss :53002  
+    ##  had moderate Covid symptoms            :13723                                 
+    ##  had severe Covid symptoms              : 3576                                 
+    ##                                                                                
+    ##                                                                                
+    ##                           ANYWORK                     KINDWORK    
+    ##  NA                           : 1700   NA                 :23250  
+    ##  yes employment in last 7 days:36608   work for govt      : 6140  
+    ##  no employment in last 7 days :20982   work for private co:20145  
+    ##                                        work for nonprofit : 4778  
+    ##                                        self employed      : 4245  
+    ##                                        work in family biz :  732  
+    ##                                                                   
+    ##             RSNNOWRKRV           SETTING     
+    ##  NA              :39253   NA         :23287  
+    ##  retired         :11890   Healthcare : 6018  
+    ##  other           : 2603   other      : 4535  
+    ##  sick or disabled: 2112   Educ       : 4400  
+    ##  caring for kids :  887   Profess Svc: 2851  
+    ##  did not want    :  852   IT         : 2360  
+    ##  (Other)         : 1693   (Other)    :15839  
+    ##                                 TWDAYS     
+    ##  NA                                : 4055  
+    ##  had 1-2 telework days in past week: 5541  
+    ##  had 3-4 telework days in past week: 3907  
+    ##  had 5+ telework days in past week : 9478  
+    ##  had no telework days in past week :36309  
+    ##                                            
+    ##                                            
     ##                           CURFOODSUF   
-    ##  NA                            : 6770  
-    ##  had enough food               :49234  
-    ##  had enough but not what wanted: 9947  
-    ##  sometimes not enough food     : 2486  
-    ##  often not enough food         :  677  
+    ##  NA                            : 4935  
+    ##  had enough food               :34622  
+    ##  had enough but not what wanted:15574  
+    ##  sometimes not enough food     : 3148  
+    ##  often not enough food         : 1011  
     ##                                        
     ##                                        
     ##                                                CHILDFOOD    
-    ##  NA                                                 :64258  
-    ##  often kids not eating enough because couldnt afford:  271  
-    ##  sometimes kids not eating enough                   : 1191  
-    ##  kids got enough food                               : 3394  
+    ##  NA                                                 :52309  
+    ##  often kids not eating enough because couldnt afford:  371  
+    ##  sometimes kids not eating enough                   : 1346  
+    ##  kids got enough food                               : 5264  
     ##                                                             
     ##                                                             
     ##                                                             
     ##                                             ANXIOUS     
-    ##  NA                                             : 7946  
-    ##  no anxiety over past 2 wks                     :26611  
-    ##  several days anxiety over past 2 wks           :19794  
-    ##  more than half the days anxiety over past 2 wks: 6140  
-    ##  nearly every day anxiety                       : 8623  
+    ##  NA                                             : 7480  
+    ##  no anxiety over past 2 wks                     :21934  
+    ##  several days anxiety over past 2 wks           :17679  
+    ##  more than half the days anxiety over past 2 wks: 5371  
+    ##  nearly every day anxiety                       : 6826  
     ##                                                         
     ##                                                         
     ##                                              WORRY      
-    ##  NA                                             : 8016  
-    ##  no worry over past 2 wks                       :31876  
-    ##  several days worried over past 2 wks           :17936  
-    ##  more than half the days worried over past 2 wks: 4979  
-    ##  nearly every day worry                         : 6307  
+    ##  NA                                             : 7623  
+    ##  no worry over past 2 wks                       :27405  
+    ##  several days worried over past 2 wks           :14891  
+    ##  more than half the days worried over past 2 wks: 4419  
+    ##  nearly every day worry                         : 4952  
     ##                                                         
     ##                                                         
+    ##                             PRICESTRESS   
+    ##  NA                               : 9760  
+    ##  very stressed about price changes:19609  
+    ##  Moderate stress price changes    :15131  
+    ##  a little stress price changes    :11530  
+    ##  no stress                        : 3260  
+    ##                                           
+    ##                                           
     ##                            TENURE     
-    ##  NA                           :11103  
-    ##  housing owned free and clear :16738  
-    ##  housing owned with mortgage  :28016  
-    ##  housing rented               :12579  
-    ##  housing occupied without rent:  678  
+    ##  NA                           : 9164  
+    ##  housing owned free and clear :13055  
+    ##  housing owned with mortgage  :24455  
+    ##  housing rented               :11946  
+    ##  housing occupied without rent:  670  
     ##                                       
     ##                                       
     ##                                 LIVQTRRV                RENTCUR     
-    ##  live in detached 1 family          :41348   NA             :56572  
-    ##  NA                                 :11336   current on rent:11239  
-    ##  live in bldg w 5+ apts             : 6731   behind on rent : 1303  
-    ##  live in 1 family attached to others: 4628                          
-    ##  live in mobile home                : 1781                          
-    ##  live in building with 3-4 apts     : 1737                          
-    ##  (Other)                            : 1553                          
+    ##  live in detached 1 family          :34610   NA             :47467  
+    ##  NA                                 : 9503   current on rent:10734  
+    ##  live in bldg w 5+ apts             : 6336   behind on rent : 1089  
+    ##  live in 1 family attached to others: 3845                          
+    ##  live in mobile home                : 1906                          
+    ##  live in building with 3-4 apts     : 1655                          
+    ##  (Other)                            : 1435                          
     ##                 MORTCUR                                             EVICT      
-    ##  NA                 :41200   NA                                        :67859  
-    ##  current on mortgage:26462   very likely evicted in next 2 months      :  207  
-    ##  behind on mortgage : 1452   somewhat likely evicted in next 2 months  :  377  
-    ##                              not very likely evicted in next 2 months  :  345  
-    ##                              not at all likely evicted in next 2 months:  326  
+    ##  NA                 :34907   NA                                        :58235  
+    ##  current on mortgage:23470   very likely evicted in next 2 months      :  142  
+    ##  behind on mortgage :  913   somewhat likely evicted in next 2 months  :  245  
+    ##                              not very likely evicted in next 2 months  :  316  
+    ##                              not at all likely evicted in next 2 months:  352  
     ##                                                                                
     ##                                                                                
-    ##                                        FORCLOSE               EST_ST     
-    ##  NA                                        :67695   California   : 5359  
-    ##  very likely forclosed in next 2 months    :   65   Texas        : 3766  
-    ##  somewhat likely forclosed in next 2 months:  218   Florida      : 2728  
-    ##  not very likely forclosed in next 2 months:  474   Washington   : 2634  
-    ##  not at all forclosed in next 2 months     :  662   Massachusetts: 1965  
-    ##                                                     Oregon       : 1934  
-    ##                                                     (Other)      :50728  
+    ##                                        FORCLOSE            EST_ST     
+    ##  NA                                        :58396   California: 4066  
+    ##  very likely forclosed in next 2 months    :   34   Texas     : 2841  
+    ##  somewhat likely forclosed in next 2 months:  150   Washington: 2323  
+    ##  not very likely forclosed in next 2 months:  307   Florida   : 1977  
+    ##  not at all forclosed in next 2 months     :  403   Michigan  : 1661  
+    ##                                                     Arizona   : 1600  
+    ##                                                     (Other)   :44822  
     ##                    PRIVHLTH                      PUBHLTH            REGION     
-    ##  has private health ins:46869   has public health ins:23346   Northeast:10478  
-    ##  no private health ins :11275   no public health ins :33381   South    :22680  
-    ##  NA                    :10970   NA                   :12387   Midwest  :13651  
-    ##                                                               West     :22305  
+    ##  has private health ins:40328   has public health ins:19999   Northeast: 8624  
+    ##  no private health ins : 9773   no public health ins :28600   South    :19123  
+    ##  NA                    : 9189   NA                   :10691   Midwest  :12824  
+    ##                                                               West     :18719  
     ##                                                                                
     ##                                                                                
     ##                                                                                
     ##                    INCOME       TBIRTH_YEAR   Num_kids_Pub_School
-    ##  NA                   :14637   Min.   :1933   Min.   :0.00       
-    ##  HH income $100k - 149:10117   1st Qu.:1955   1st Qu.:1.00       
-    ##  HH income $50k - 74.9: 9330   Median :1967   Median :2.00       
-    ##  HH income $75 - 99.9 : 7830   Mean   :1968   Mean   :1.71       
-    ##  HH income $200k +    : 6117   3rd Qu.:1981   3rd Qu.:2.00       
-    ##  HH income $35k - 49.9: 5805   Max.   :2003   Max.   :4.00       
-    ##  (Other)              :15278                  NA's   :55108      
-    ##  Num_kids_Priv_School Num_kids_homeschool        Works_onsite  
-    ##  Min.   :0.00         Min.   :0.00        NA           : 6350  
-    ##  1st Qu.:0.00         1st Qu.:0.00        worked onsite:34918  
-    ##  Median :1.00         Median :1.00        no           :27846  
-    ##  Mean   :1.03         Mean   :0.87                             
-    ##  3rd Qu.:2.00         3rd Qu.:2.00                             
-    ##  Max.   :2.00         Max.   :2.00                             
-    ##  NA's   :66430        NA's   :67421                            
-    ##           works_remote            Shop_in_store  
-    ##  NA             : 8022   NA              : 6873  
-    ##  worked remotely:22863   shopped in store:53576  
-    ##  no             :38229   no              : 8665  
-    ##                                                  
-    ##                                                  
-    ##                                                  
-    ##                                                  
-    ##                  eat_in_restaurant
-    ##  NA                       : 7217  
-    ##  eat at restaurant indoors:32405  
-    ##  no                       :29492  
-    ##                                   
-    ##                                   
-    ##                                   
-    ## 
+    ##  NA                   :10833   Min.   :1935   Min.   :0.00       
+    ##  HH income $100k - 149: 9131   1st Qu.:1958   1st Qu.:1.00       
+    ##  HH income $50k - 74.9: 7959   Median :1971   Median :2.00       
+    ##  HH income $75 - 99.9 : 6719   Mean   :1971   Mean   :1.72       
+    ##  HH income $200k +    : 6184   3rd Qu.:1984   3rd Qu.:2.00       
+    ##  HH income $35k - 49.9: 5147   Max.   :2005   Max.   :4.00       
+    ##  (Other)              :13317                  NA's   :47219      
+    ##  Num_kids_Priv_School Num_kids_homeschool Amout_spent_on_food  Monthly_Rent  
+    ##  Min.   :0.0          Min.   :0.00        Min.   :  0.0       Min.   :   0   
+    ##  1st Qu.:1.0          1st Qu.:0.00        1st Qu.:125.0       1st Qu.: 850   
+    ##  Median :1.0          Median :1.00        Median :200.0       Median :1300   
+    ##  Mean   :1.2          Mean   :1.05        Mean   :236.9       Mean   :1450   
+    ##  3rd Qu.:2.0          3rd Qu.:2.00        3rd Qu.:300.0       3rd Qu.:1900   
+    ##  Max.   :2.0          Max.   :2.00        Max.   :900.0       Max.   :3500   
+    ##  NA's   :57333        NA's   :58281       NA's   :8478        NA's   :48016
 
-So this shows that there are 69,114 people in this dataset.
+So this shows that there are 59,290 people in this dataset.
 
 ### Simple Stats
 
@@ -399,41 +414,41 @@ summary(TBIRTH_YEAR[GENID_DESCRIBE == "female"])
 ```
 
     ##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
-    ##    1933    1956    1968    1969    1981    2003
+    ##    1935    1959    1971    1971    1984    2005
 
 ``` r
 summary(TBIRTH_YEAR[GENID_DESCRIBE == "male"])
 ```
 
     ##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
-    ##    1933    1953    1965    1967    1980    2003
+    ##    1935    1957    1970    1970    1984    2005
 
 ``` r
 summary(TBIRTH_YEAR[GENID_DESCRIBE == "transgender"])
 ```
 
     ##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
-    ##    1933    1975    1988    1983    1995    2003
+    ##    1935    1984    1992    1989    1998    2005
 
 ``` r
 summary(TBIRTH_YEAR[GENID_DESCRIBE == "other"])
 ```
 
     ##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
-    ##    1933    1959    1973    1973    1988    2003
+    ##    1935    1964    1980    1977    1992    2005
 
 ``` r
 summary(TBIRTH_YEAR[GENID_DESCRIBE == "NA"])
 ```
 
     ##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
-    ##    1933    1952    1962    1964    1977    2003
+    ##    1935    1952    1962    1964    1975    2005
 
 This uses the factor variable, GENID_DESCRIBE, which asks people about
 their current gender identity.
 
 Males in this dataset are, on average, a bit older, with an average age
-of 54.5 compared with 52.3 for females. You might wonder (if you were to
+of 52.8 compared with 51.5 for females. You might wonder (if you were to
 begin to think like a statistician) whether that is a big difference -
 hold onto that thought!
 
@@ -445,25 +460,25 @@ and the standard deviation, sd(), to get those statistics:
 mean(TBIRTH_YEAR[GENID_DESCRIBE == "female"])
 ```
 
-    ## [1] 1968.666
+    ## [1] 1971.481
 
 ``` r
 sd(TBIRTH_YEAR[GENID_DESCRIBE == "female"])
 ```
 
-    ## [1] 15.45378
+    ## [1] 15.61139
 
 ``` r
 mean(TBIRTH_YEAR[GENID_DESCRIBE == "male"])
 ```
 
-    ## [1] 1966.549
+    ## [1] 1970.25
 
 ``` r
 sd(TBIRTH_YEAR[GENID_DESCRIBE == "male"])
 ```
 
-    ## [1] 16.29105
+    ## [1] 16.17685
 
 Later you might encounter cases where you want more complicated dummy
 variables and want to use logical relations “and” “or” “not” (the
